@@ -66,7 +66,7 @@ bool isSubsetVector(vector<T> p,vector<T> q){
             index_q++;
         }
         else if(p[index_p]<q[index_q]){
-            index_p++;
+            return false;
         }
         else if(p[index_p]>q[index_q]){
             index_q++;
@@ -126,3 +126,50 @@ set<A> vector_to_set(vector<A> v){
     return s;
 }
 
+template<typename A>
+bool candidateCheck(vector<A> v1,vector<A> v2,int K){
+    // for(auto i:v1){
+    //     cout<<i<<" ";
+    // }
+    // cout<<endl;
+    // for(auto i:v2){
+    //     cout<<i<<endl;
+    // }
+    // cout<<endl;
+    for(int i=0;i<K;i++){
+        if(v1[i]!=v2[i]){
+            // cout<<"Answer is false"<<endl;
+            return false;
+        }
+    }
+    // cout<<"Answer is true"<<endl;
+    return true;
+}
+
+template<typename A, typename C>
+C candidateMerge(C v1,C v2){
+    auto iter1=v1.end();
+    auto iter2=v2.end();
+    iter1--;
+    iter2--;
+    A a1=*iter1;
+    A a2=*iter2;
+    v1.erase(iter1);
+    v1.insert(v1.end(),min(a1,a2));
+    v1.insert(v1.end(),max(a1,a2));
+    return v1;    
+} 
+
+bool isEqual(set<vector<int> > v,string filename){
+    bool main_flag=true;
+    FILE *file=fopen(filename.c_str(),"r");
+    vector<int> temp;
+    while(getSingleTransaction<vector<int> >(temp,file)){
+        sort(all(temp));
+        if(v.find(temp)==v.end()){
+            return false;
+        }
+        temp.clear();
+    }
+    return true;
+}

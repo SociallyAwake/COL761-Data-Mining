@@ -30,7 +30,7 @@ struct Apriori {
     int K;
     map<C,int> C_K;
     set<C> F_K;
-    vector<C> frequent_itemsets;
+    set<C> frequent_itemsets;
     // Member functions
     Apriori(string s, float threshold){
         // filename constructor
@@ -45,19 +45,20 @@ struct Apriori {
         close_file(file);
         // support threshold constructor
         support_threshold=threshold;
-        nSupportThreshold=(support_threshold*nTransactions)/100;
-        if(nSupportThreshold<(support_threshold*nTransactions)/100){
+        nSupportThreshold=(support_threshold*nTransactions);
+        if(nSupportThreshold<(support_threshold*nTransactions)){
             nSupportThreshold++;
         }
         // Apriori Paramenters constructor
         K=0;
     }
     void getFrequent(){
+        cout<<K<<":::::::::::::::::"<<C_K.size()<<endl;
         if(C_K.size()<2){ // no. of items in last stage is insufficient to keep continuing the analysis
             return;
         }
-        cout<<K<<":::::::::::::::::"<<endl;
-        getCandidates();
+        F_K.clear();
+        int id=0;
         for(pair<C,int> p:C_K){
             // calculate the support in the transactions
             FILE *file=load_file();
@@ -67,22 +68,27 @@ struct Apriori {
 #ifdef NOT_SORTED 
                 sort(all(transaction));
 #endif  
+                
                 // Manish: can be optimised
                 if(isSubsetVector<T>(p.first,transaction)){
                     p.second++;
                 }
             }
             close_file(file);
+            // cout<<"Collection id:"<<id++<<" "<<p.second<<" "<<nSupportThreshold<<endl;
+            
             if(p.second>=nSupportThreshold){
                 F_K.insert(F_K.end(),p.first);
                 frequent_itemsets.insert(frequent_itemsets.end(),p.first);
             }
         }
+        getCandidates();
         K=K+1;
         getFrequent(); 
     }
     void getCandidates(){
         if(K!=0){
+            int id=0,ie=0;
             // 1a stage is to merge two elements of set C_K so that new element will have a size of C_(K+1)
             C_K.clear();
             for(C itemset_1:F_K){
@@ -90,21 +96,33 @@ struct Apriori {
                     if(itemset_1==itemset_2){
                         continue;
                     }
+                    // for(auto i:itemset_1){
+                    //     cout<<i<<" ";
+                    // }
+                    // cout<<endl;
+                    // for(auto i:itemset_2){
+                    //     cout<<i<<" ";
+                    // }
+                    // cout<<endl;
                     // Manish: can be optimised
-                    set<T> merged=vector_to_set<T>(merge<T>(itemset_1,itemset_2));
-                    if(merged.size()==K+1){
-                        // 1b to get all elements of size K of the new set and check whether it exists in the C_K
+                    if(candidateCheck<T>(itemset_1,itemset_2,K-1)){
+                        // cout<<"Candidate:"<<ie++<<endl;
                         bool flag=true;
+                        vector<T> merged=candidateMerge<T,vector<T> >(itemset_1,itemset_2);
+                        set<T> merged_set=vector_to_set<T>(merged);
                         for(T itemset:merged){
-                            merged.erase(itemset);
-                            if(F_K.find(set_to_vector<int>(merged))==F_K.end()){
+                            // cout<<itemset<<">>"<<endl;
+                            merged_set.erase(itemset);
+                            if(F_K.find(set_to_vector<int>(merged_set))==F_K.end()){
                                 flag=false;
                                 break;
                             }
-                            merged.insert(itemset);
+                            merged_set.insert(itemset);
                         }
+                        // cout<<"Exited"<<endl;
                         if(flag){
-                            C_K.insert({set_to_vector<int>(merged),0});
+                            // cout<<"Probable candidate:"<<id++<<endl;
+                            C_K.insert({merged,0});
                         }
                     }
                 }
@@ -130,8 +148,10 @@ struct Apriori {
             C_K=set_to_map<vector<int>,int,map<vector<int>,int > >(v,0);
         }
     }
-    vector<C> getAllFrequentItemsets(){
+    set<C> getAllFrequentItemsets(){
+        K=0;
         getCandidates();
+        K=1;
         getFrequent();
         return frequent_itemsets;
     }

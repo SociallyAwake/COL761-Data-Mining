@@ -43,18 +43,25 @@
 using namespace std;
 #include"Apriori.h"
 int main(int argc,char **argv){
-    if(argc<3){
+    if(argc<4){
         cout<<"Insufficient Arguments"<<endl;
         return -1;
     }
     string filename(argv[1]);
     float threshold=stof(string(argv[2]));
     Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
-    vector<vector<int> > ans=apriori->getAllFrequentItemsets();
-    for(auto v:ans){
-        for(auto i:v){
-            cout<<i<<" ";
-        }
-        cout<<endl;
+    set<vector<int> > ans=apriori->getAllFrequentItemsets();
+    // for(auto v:ans){
+    //     for(auto i:v){
+    //         cout<<i<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+    string ansFilename(argv[3]);
+    if(isEqual(ans,ansFilename)){
+        cout<<"The answer is correct"<<endl;
+    }
+    else{
+        cout<<"The answer is incorrect"<<endl;
     }
 }
