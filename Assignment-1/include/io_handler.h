@@ -45,21 +45,3 @@ bool getSingleTransaction(C &container, FILE *file, bool to_clear=true){
         return false;
     }
 }
-
-template<typename A,typename B, typename M>
-M set_to_map(set<A> s, B default_val){
-    M m;
-    for(A i:s){
-        m.insert({i,default_val});
-    }
-    return m;
-}
-
-template<typename A, typename M>
-set<A> map_to_set(M m){
-    set<A> s;
-    for(auto iter:m){
-        s.insert(iter->first);
-    }
-    return s;
-}
