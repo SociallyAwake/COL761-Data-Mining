@@ -41,7 +41,10 @@
 #define set(mask,i) (mask |= (1<<(i)))
 #define get(mask,i) (mask & (1<<(i)))
 using namespace std;
-#include"Apriori.h"
+#include"io_handler.h"
+#include"helper.h"
+// #include"Apriori.h"
+#include"FP.h"
 int main(int argc,char **argv){
     if(argc<4){
         cout<<"Insufficient Arguments"<<endl;
@@ -49,14 +52,18 @@ int main(int argc,char **argv){
     }
     string filename(argv[1]);
     float threshold=stof(string(argv[2]));
-    Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
-    set<vector<int> > ans=apriori->getAllFrequentItemsets();
-    // for(auto v:ans){
-    //     for(auto i:v){
-    //         cout<<i<<" ";
-    //     }
-    //     cout<<endl;
-    // }
+    
+    // Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
+    // set<vector<int> > ans=apriori->getAllFrequentItemsets();
+
+    Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
+    set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
+    for(auto v:ans){
+        for(auto i:v){
+            cout<<i<<" ";
+        }
+        cout<<endl;
+    }
     string ansFilename(argv[3]);
     if(isEqual(ans,ansFilename)){
         cout<<"The answer is correct"<<endl;

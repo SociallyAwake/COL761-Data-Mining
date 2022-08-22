@@ -1,6 +1,4 @@
 #include<string>
-#include"io_handler.h"
-#include"helper.h"
 using namespace std;
 template<typename T, typename C>
 struct Apriori {
@@ -24,7 +22,7 @@ struct Apriori {
     // transactions
     int nTransactions;
     // support threshold
-    float support_threshold; 
+    float supportThreshold; 
     int nSupportThreshold; // minimum transactions needed for bypassing support threshold
     // Apriori parameters
     int K;
@@ -44,9 +42,9 @@ struct Apriori {
         }
         close_file(file);
         // support threshold constructor
-        support_threshold=threshold;
-        nSupportThreshold=(support_threshold*nTransactions);
-        if(nSupportThreshold<(support_threshold*nTransactions)){
+        supportThreshold=threshold;
+        nSupportThreshold=(supportThreshold*nTransactions);
+        if(nSupportThreshold<(supportThreshold*nTransactions)){
             nSupportThreshold++;
         }
         // Apriori Paramenters constructor
