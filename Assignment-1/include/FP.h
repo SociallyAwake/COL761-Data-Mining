@@ -8,10 +8,8 @@ struct Node{
     // 4. count of the item
     // 5. next -> this is for linked list of the item
     // 6. getPath() -> getting a path from root to node, this will be recursive and return will be vector of T(template type)
-    // 7. addItemSet() -> adding a transaction from the present node, this will be a recursive too, \
-     (This will become a little tough when I have to handle the linked list)
     Node *parent;
-    map<T,Node*> child_nodes; // assuming it will be map(normal map, unordered_map) from item to node;
+    map<T,Node*> childNodes; // assuming it will be map(normal map, unordered_map) from item to node;
     T item;
     int count;
     Node* next;
@@ -31,13 +29,22 @@ struct Node{
             return vector<T>();
         }
     }
+    void freeMemory(){
+        if(childNodes.size()==0){
+            return;
+        }
+        for(auto child:childNodes){
+            child.second->freeMemory();
+            free(childNodes[child.first]);
+        }        
+    }
     void printTree(){
         cout<<item<<"::";
-        for(auto i:child_nodes){
+        for(auto i:childNodes){
             cout<<i.first<<" ";
         }
         cout<<endl;
-        for(auto i:child_nodes){
+        for(auto i:childNodes){
             i.second->printTree();
         }
     }
@@ -133,10 +140,10 @@ struct Table {
         for(T item:transaction){
             // count at nodes
             // ?? what I have to do about the head count
-            if(!ptr->child_nodes.count(item)){
+            if(!ptr->childNodes.count(item)){
                 // if the child does not exist
                 Node<T> *new_ptr=new Node<T>(ptr,item,0,NULL);
-                ptr->child_nodes[item]=new_ptr;
+                ptr->childNodes[item]=new_ptr;
                 // check if head exists for this item
                 if(head.count(item)){
                     // it exists then change tail
@@ -152,16 +159,13 @@ struct Table {
                 // change ptr
             }
             head[item]->count+=count;
-            ptr=ptr->child_nodes[item];
+            ptr=ptr->childNodes[item];
             ptr->count+=count;
         }
     }
     set<C> getAllFrequentItemsets(bool initial=false){
         int total_size=head.size();
         int count=0;
-        // cout<<"new tree"<<endl;
-        // root->printTree();
-        // cout<<endl;
         for(auto p:head){
             T item=p.first;
             Node<T> *ptr=p.second;
@@ -172,7 +176,7 @@ struct Table {
             frequent_itemsets.insert(vector<T>(1,item));
             // ?? I can filter the path here
             // now form a new Table
-            Table *subTree=new Table(nSupportThreshold);
+            Table *subTable=new Table(nSupportThreshold);
             // get all the transactions from the item to the root
             // skipping the placeholder node at head
             Node<T> *traverse_ptr=ptr->next;
@@ -181,16 +185,19 @@ struct Table {
                 int count=traverse_ptr->count;
                 // excluding the current item
                 path.pop_back();
-                subTree->addTransaction(path,count);
+                subTable->addTransaction(path,count);
                 traverse_ptr=traverse_ptr->next;
             }
-            set<C> subTreeFrequentItemsets=subTree->getAllFrequentItemsets();
-            for(auto frequent:subTreeFrequentItemsets){
+            set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets();
+            for(auto frequent:subTableFrequentItemsets){
                 frequent.push_back(item);
                 sort(all(frequent));
                 frequent_itemsets.insert(frequent);
             }
-            // ?? destroy and free the memory the whole subtree
+            // ?? destroy and free the memory the whole subTable
+            subTable->root->freeMemory();
+            free(subTable->root);
+
         }
         return frequent_itemsets;
     }

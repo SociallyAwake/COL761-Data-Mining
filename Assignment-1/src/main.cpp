@@ -43,7 +43,7 @@
 using namespace std;
 #include"io_handler.h"
 #include"helper.h"
-// #include"Apriori.h"
+#include"Apriori.h"
 #include"FP.h"
 int main(int argc,char **argv){
     if(argc<4){
@@ -53,11 +53,12 @@ int main(int argc,char **argv){
     string filename(argv[1]);
     float threshold=stof(string(argv[2]));
     
-    // Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
-    // set<vector<int> > ans=apriori->getAllFrequentItemsets();
+    Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
+    set<vector<int> > ans=apriori->getAllFrequentItemsets();
 
-    Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
-    set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
+    // Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
+    // set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
+
     for(auto v:ans){
         for(auto i:v){
             cout<<i<<" ";

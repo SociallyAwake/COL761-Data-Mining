@@ -128,21 +128,11 @@ set<A> vector_to_set(vector<A> v){
 
 template<typename A>
 bool candidateCheck(vector<A> v1,vector<A> v2,int K){
-    // for(auto i:v1){
-    //     cout<<i<<" ";
-    // }
-    // cout<<endl;
-    // for(auto i:v2){
-    //     cout<<i<<endl;
-    // }
-    // cout<<endl;
     for(int i=0;i<K;i++){
         if(v1[i]!=v2[i]){
-            // cout<<"Answer is false"<<endl;
             return false;
         }
     }
-    // cout<<"Answer is true"<<endl;
     return true;
 }
 
