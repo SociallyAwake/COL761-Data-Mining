@@ -4,3 +4,7 @@
 ./datasets/webdocs.dat fptree 90 150.448 1
 ./datasets/webdocs.dat fptree 50 149.895 1
 ------------------------------------------------  
+./datasets/5/test5.dat apriori 98 284.571 1
+./datasets/webdocs.dat fptree 50 159.294 1
+./datasets/webdocs.dat fptree 90 158.322 1
+./datasets/5/test5.dat fptree 98 0.161914 1

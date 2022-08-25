@@ -1,10 +1,23 @@
+# This is for buiding main
 run: obj/main.o
-	./obj/main.o ./datasets/webdocs.dat 0.50 -apriori 1 ./datasets/output/webdocs_apriori.dat ./datasets/time.txt
+	./obj/main.o ./datasets/5/test5.dat 0.98 -fptree 1 ./datasets/output/test5_98.dat ./datasets/time.txt
 obj/main.o:
 	g++ -std=c++11 -O3 -w -Iinclude/ src/main.cpp -o obj/main.o
+# This is for building plot
+plot: obj/plot.o
+	./obj/plot.o $(INPUT_DATASET) $(PLOT_FILENAME)
+obj/plot.o:
+	g++ -std=c++11 -O3 -w -Iinclude/ src/plot.cpp -o obj/plot.o
+# This is for io_handler testing
 io_handler_test: obj/io_handler.o
 	./obj/io_handler.o
 obj/io_handler.o:
 	g++ -w -Iinclude/ test/io_handler.cpp -o obj/io_handler.o
+# This is the checking code
+check: ./obj/check.o
+	./obj/check.o ./datasets/output/test5_98.dat ./datasets/5/out_98.dat_sorted
+./obj/check.o:
+	g++ -std=c++11 -O3 -w -Iinclude/ test/check.cpp -o obj/check.o
+# clean code
 clean:
 	rm -rf obj/*
