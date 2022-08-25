@@ -55,15 +55,18 @@ int main(int argc,char **argv){
 
     //changed from 1->2
     string filename(argv[2]);
-    float threshold=stof(string(argv[3]))*100;
+    //As required threshold is in % and we are using it as absolute.
     
+    float threshold=stof(string(argv[3]))/100;
+    
+    set<vector<int> > ans;
     if(argv[1]=="apriori"){
     Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
-    set<vector<int> > ans=apriori->getAllFrequentItemsets();
+    ans=apriori->getAllFrequentItemsets();
 	}
-	else if(argv[2]=="fptree"){
+	else if(argv[1]=="fptree"){
     Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
-    set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
+    ans=FP_Tree->getAllFrequentItemsets();
 	}
     for(auto v:ans){
         for(auto i:v){
@@ -71,6 +74,7 @@ int main(int argc,char **argv){
         }
         cout<<endl;
     }
+    
     string ansFilename(argv[4]);
     if(isEqual(ans,ansFilename)){
         cout<<"The answer is correct"<<endl;
@@ -78,5 +82,5 @@ int main(int argc,char **argv){
     else{
         cout<<"The answer is incorrect"<<endl;
     }
-    writeInFile(ans,outFilename);
+    writeInFile(ans,ansFilename);
 }
