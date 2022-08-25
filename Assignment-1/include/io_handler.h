@@ -45,3 +45,18 @@ bool getSingleTransaction(C &container, FILE *file, bool to_clear=true){
         return false;
     }
 }
+
+
+void writeInFile(vector<int> v,string filename){
+    ofstream file;
+    file.open(filename,ios::app);
+    vector<string> u;
+    for(int i:v){
+        u.push_back(to_string(i));
+    }
+    sort(all(u));
+    for(string s:u){
+        file<<s<<" ";
+    }
+    cout<<endl;
+}

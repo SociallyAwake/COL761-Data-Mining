@@ -58,18 +58,6 @@ int main(int argc,char **argv){
 
     // Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
     // set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
-
-    for(auto v:ans){
-        for(auto i:v){
-            cout<<i<<" ";
-        }
-        cout<<endl;
-    }
-    string ansFilename(argv[3]);
-    if(isEqual(ans,ansFilename)){
-        cout<<"The answer is correct"<<endl;
-    }
-    else{
-        cout<<"The answer is incorrect"<<endl;
-    }
+    string outFilename(argv[3]);
+    writeInFile(ans,outFilename);
 }
