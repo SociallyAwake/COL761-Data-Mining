@@ -46,18 +46,36 @@ using namespace std;
 #include"Apriori.h"
 #include"FP.h"
 int main(int argc,char **argv){
-    if(argc<4){
+    if(argc<5){
         cout<<"Insufficient Arguments"<<endl;
         return -1;
     }
-    string filename(argv[1]);
-    float threshold=stof(string(argv[2]));
+    // 1 is for Apriori/fptree
+
+    //changed from 1->2
+    string filename(argv[2]);
+    float threshold=stof(string(argv[3]))*100;
     
+    if(argv[1]=="apriori"){
     Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
     set<vector<int> > ans=apriori->getAllFrequentItemsets();
-
-    // Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
-    // set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
-    string outFilename(argv[3]);
+	}
+	else if(argv[2]=="fptree"){
+    Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
+    set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
+	}
+    for(auto v:ans){
+        for(auto i:v){
+            cout<<i<<" ";
+        }
+        cout<<endl;
+    }
+    string ansFilename(argv[4]);
+    if(isEqual(ans,ansFilename)){
+        cout<<"The answer is correct"<<endl;
+    }
+    else{
+        cout<<"The answer is incorrect"<<endl;
+    }
     writeInFile(ans,outFilename);
 }
