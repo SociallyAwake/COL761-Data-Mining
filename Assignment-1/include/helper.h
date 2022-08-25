@@ -163,3 +163,22 @@ bool isEqual(set<vector<int> > v,string filename){
     }
     return true;
 }
+template<typename T> 
+set<vector<T> > getAllPowerSets(vector<T> v){
+    if(v.size()==0){
+        return set<vector<T> >();
+    }
+    T value=v.back();
+    v.pop_back();
+    set<vector<T> > p=getAllPowerSets(v);
+    set<vector<T> > q;
+    for(auto v:p){
+        v.push_back(value);
+        sort(all(v));
+        q.insert(v);
+    }
+    for(auto v:p){
+        q.insert(v);
+    }
+    return q;
+}
