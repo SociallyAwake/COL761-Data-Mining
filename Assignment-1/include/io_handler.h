@@ -45,3 +45,14 @@ bool getSingleTransaction(C &container, FILE *file, bool to_clear=true){
         return false;
     }
 }
+
+template<typename T>
+void writeInFile(vector<T> v,string filename){
+    ofstream file;
+    file.open(filename,ios::out | ios::app);
+    for(T s:v){
+        file<<s<<" ";
+    }
+    file<<"\n";
+    file.close();
+}

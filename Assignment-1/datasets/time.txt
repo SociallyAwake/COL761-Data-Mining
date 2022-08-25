@@ -1,0 +1,6 @@
+./datasets/5/test5.dat fptree 98 1.06411 1
+./datasets/5/test5.dat fptree 98 1.07261 1
+./datasets/webdocs.dat fptree 98 404.382 6
+./datasets/webdocs.dat fptree 90 150.448 1
+./datasets/webdocs.dat fptree 50 149.895 1
+------------------------------------------------  

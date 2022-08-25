@@ -45,31 +45,67 @@ using namespace std;
 #include"helper.h"
 #include"Apriori.h"
 #include"FP.h"
+#include"timer.h"
 int main(int argc,char **argv){
-    if(argc<4){
+    if(argc<7){
         cout<<"Insufficient Arguments"<<endl;
         return -1;
     }
+    // I need to run a code six times for FP and Apriori
     string filename(argv[1]);
     float threshold=stof(string(argv[2]));
-    
-    Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
-    set<vector<int> > ans=apriori->getAllFrequentItemsets();
-
-    // Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
-    // set<vector<int> > ans=FP_Tree->getAllFrequentItemsets();
-
-    for(auto v:ans){
-        for(auto i:v){
-            cout<<i<<" ";
+    string algorithmType(argv[3]);
+    int nreps=stoi(string(argv[4])); // iterations
+    double total=0.0;
+    set<vector<int> > ans;
+    if(algorithmType=="-apriori"){
+        for(int i=0;i<nreps;i++){
+            cout<<"Iteration "<<i+1<<endl;
+            double start_time=calculateTime();
+            Apriori<int,vector<int>> *apriori=new Apriori<int,vector<int>>(filename,threshold);
+            ans=apriori->getAllFrequentItemsets();
+            double end_time=calculateTime();
+            total+=end_time-start_time;
         }
-        cout<<endl;
     }
-    string ansFilename(argv[3]);
-    if(isEqual(ans,ansFilename)){
-        cout<<"The answer is correct"<<endl;
+    else if(algorithmType=="-fptree"){
+        for(int i=0;i<nreps;i++){
+            cout<<"Iteration "<<i+1<<endl;
+            double start_time=calculateTime();
+            Table<int,vector<int> > *FP_Tree=new Table<int,vector<int> >(filename,threshold);
+            ans=FP_Tree->getAllFrequentItemsets();
+            double end_time=calculateTime();
+            total+=end_time-start_time;
+        }
     }
-    else{
-        cout<<"The answer is incorrect"<<endl;
+    // converting the int to string: to get the final output in specified sorted order
+    set<vector<string> > ans_s;
+    for(auto v:ans){
+        vector<string> temp;
+        for(auto i:v){
+            temp.push_back(to_string(i));
+        }
+        sort(all(temp));
+        ans_s.insert(temp);
     }
+    // storing the frequent itemsets in the file
+    string outFilename(argv[5]);
+    {
+        // for clearning the file
+        ofstream file;
+        file.open(outFilename,ios::out|ios::trunc);
+        file.close();
+    }
+    for(auto v:ans_s){
+        writeInFile(v,outFilename);
+    }
+    // This will just note down the time
+    string timer_file(argv[6]);
+    {
+        ofstream file;
+        file.open(timer_file,ios::out|ios::app);
+        file<<filename<<" "<<algorithmType.substr(1,algorithmType.size()-1)<<" "<<(int)(threshold*100)<<" "<<(double)total/nreps<<" "<<nreps<<endl;
+    }
+    return 0;
 }
+

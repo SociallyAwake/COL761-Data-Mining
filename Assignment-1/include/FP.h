@@ -174,18 +174,40 @@ struct Table {
                 continue;
             }
             frequent_itemsets.insert(vector<T>(1,item));
-            // ?? I can filter the path here
             // now form a new Table
             Table *subTable=new Table(nSupportThreshold);
             // get all the transactions from the item to the root
             // skipping the placeholder node at head
+
+            // ??? I can filter the path here: Done
+            {
+                // This is to store the frequency of the items in the extracted trees
+                Node<T> *traverse_ptr=ptr->next;
+                while(traverse_ptr!=NULL){
+                    vector<T> path=traverse_ptr->getPath();
+                    int count=traverse_ptr->count;
+                    // excluding the current item
+                    path.pop_back();
+                    for(T i:path){
+                        subTable->itemsFrequency[i]+=count;
+                    }
+                    traverse_ptr=traverse_ptr->next;
+                }
+            }
             Node<T> *traverse_ptr=ptr->next;
             while(traverse_ptr!=NULL){
                 vector<T> path=traverse_ptr->getPath();
                 int count=traverse_ptr->count;
                 // excluding the current item
                 path.pop_back();
-                subTable->addTransaction(path,count);
+                vector<T> filteredPath;
+                for(T i:path){
+                    if(subTable->itemsFrequency[i]<nSupportThreshold){
+                        continue;
+                    }
+                    filteredPath.push_back(i);
+                }
+                subTable->addTransaction(filteredPath,count);
                 traverse_ptr=traverse_ptr->next;
             }
             set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets();
@@ -194,12 +216,14 @@ struct Table {
                 sort(all(frequent));
                 frequent_itemsets.insert(frequent);
             }
-            // ?? destroy and free the memory the whole subTable
             subTable->root->freeMemory();
             free(subTable->root);
-
         }
         return frequent_itemsets;
+    }
+    ~Table(){
+        root->freeMemory();
+        free(root);
     }
     
 };
