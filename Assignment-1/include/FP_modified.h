@@ -189,9 +189,22 @@ struct Table {
     set<C> getAllFrequentItemsets(bool initial=false){
         // is the tree only a single line
         if(root->isSingleLine()){
+            // cout<<"Single path detected"<<endl;
             vector<T> path=root->getPathToChildren(vector<T>());
+            path.erase(path.begin());
+            // for(auto i:path){
+                // cout<<i<<" ";
+            // }
             // get all the powersets of this path
-            return getAllPowerSets<T>(path);
+            auto s=getAllPowerSets<T>(path);
+            s.erase(vector<T>());
+            // for(auto v:s){
+                // for(auto i:v){
+                    // cout<<i<<" ";
+                // }
+                // cout<<endl;
+            // }
+            return s;
         }
 
         // 

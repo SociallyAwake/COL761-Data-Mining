@@ -8,3 +8,9 @@
 ./datasets/webdocs.dat fptree 50 159.294 1
 ./datasets/webdocs.dat fptree 90 158.322 1
 ./datasets/5/test5.dat fptree 98 0.161914 1
+./datasets/0/test0.dat fptree 100 0.000789881 1
+./datasets/0/test0.dat fptree 100 0.000722885 1
+./datasets/0/test0.dat fptree 100 0.000859976 1
+./datasets/0/test0.dat fptree 100 0.000878096 1
+./datasets/0/test0.dat fptree 100 0.000810862 1
+./datasets/5/test5.dat fptree 98 0.162541 1

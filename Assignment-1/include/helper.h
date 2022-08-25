@@ -166,7 +166,9 @@ bool isEqual(set<vector<int> > v,string filename){
 template<typename T> 
 set<vector<T> > getAllPowerSets(vector<T> v){
     if(v.size()==0){
-        return set<vector<T> >();
+        set<vector<T> > s;
+        s.insert(vector<T>());
+        return s;
     }
     T value=v.back();
     v.pop_back();
