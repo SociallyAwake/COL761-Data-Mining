@@ -26,7 +26,7 @@ struct Apriori {
     int nSupportThreshold; // minimum transactions needed for bypassing support threshold
     // Apriori parameters
     int K;
-    map<C,int> C_K;
+    set<C> C_K;
     set<C> F_K;
     set<C> frequent_itemsets;
     // Member functions
@@ -37,28 +37,43 @@ struct Apriori {
         FILE *file=load_file();
         nTransactions=0;
         vector<T> temp;
+        map<T,int> mapping;
         while(getSingleTransaction<vector<T> >(temp,file)){
+            for(T item:temp){
+                mapping[item]++;
+            }
             nTransactions++;
         }
         close_file(file);
+        cout<<"Frequency noted"<<endl;
         // support threshold constructor
         supportThreshold=threshold;
         nSupportThreshold=(supportThreshold*nTransactions);
         if(nSupportThreshold<(supportThreshold*nTransactions)){
             nSupportThreshold++;
         }
+        cout<<"Threshold modified"<<endl;
         // Apriori Paramenters constructor
         K=0;
+        for(pair<T,int> p:mapping){
+            if(p.second<nSupportThreshold){
+                continue;
+            }
+            C_K.insert(vector<T>(1,p.first));
+        }
+        cout<<"First stage done"<<endl;
     }
     void getFrequent(){
         cout<<K<<":::::::::::::::::"<<C_K.size()<<endl;
+        
         if(C_K.size()<2){ // no. of items in last stage is insufficient to keep continuing the analysis
             return;
         }
         F_K.clear();
         int id=0;
-        for(pair<C,int> p:C_K){
+        for(C itemset:C_K){
             // calculate the support in the transactions
+            int count=0;
             FILE *file=load_file();
             vector<T> transaction;
             for(int i=0;i<nTransactions;i++){
@@ -68,16 +83,15 @@ struct Apriori {
 #endif  
                 
                 // Manish: can be optimised
-                if(isSubsetVector<T>(p.first,transaction)){
-                    p.second++;
+                if(isSubsetVector<T>(itemset,transaction)){
+                    count++;
                 }
             }
             close_file(file);
-            // cout<<"Collection id:"<<id++<<" "<<p.second<<" "<<nSupportThreshold<<endl;
             
-            if(p.second>=nSupportThreshold){
-                F_K.insert(F_K.end(),p.first);
-                frequent_itemsets.insert(frequent_itemsets.end(),p.first);
+            if(count>=nSupportThreshold){
+                F_K.insert(F_K.end(),itemset);
+                frequent_itemsets.insert(frequent_itemsets.end(),itemset);
             }
         }
         getCandidates();
@@ -94,14 +108,6 @@ struct Apriori {
                     if(itemset_1==itemset_2){
                         continue;
                     }
-                    // for(auto i:itemset_1){
-                    //     cout<<i<<" ";
-                    // }
-                    // cout<<endl;
-                    // for(auto i:itemset_2){
-                    //     cout<<i<<" ";
-                    // }
-                    // cout<<endl;
                     // Manish: can be optimised
                     if(candidateCheck<T>(itemset_1,itemset_2,K-1)){
                         // cout<<"Candidate:"<<ie++<<endl;
@@ -117,38 +123,38 @@ struct Apriori {
                             }
                             merged_set.insert(itemset);
                         }
-                        // cout<<"Exited"<<endl;
                         if(flag){
-                            // cout<<"Probable candidate:"<<id++<<endl;
-                            C_K.insert({merged,0});
+                            C_K.insert(merged);
                         }
                     }
                 }
             }
         }
         else{
-            set<T> s;
+            map<T,int> mapping;
             FILE *file=load_file();
             // populate C_K
             for(int i=0;i<nTransactions;i++){
                 vector<T> transaction;
                 getSingleTransaction<vector<T> >(transaction,file);
                 for(T item:transaction){
-                    s.insert(item);
+                    mapping[item]++;
                 }
             }
             close_file(file);
             // set<int> to vector<vector<int> > 
             set<vector<int> > v;
-            for(int item: s){
-                v.insert(vector<int>(1,item));
+            for(auto p: mapping){
+                if(p.second<nSupportThreshold){
+                    continue;
+                }
+                v.insert(vector<int>(1,p.first));
             }
-            C_K=set_to_map<vector<int>,int,map<vector<int>,int > >(v,0);
+            C_K=v;
         }
     }
     set<C> getAllFrequentItemsets(){
-        K=0;
-        getCandidates();
+        cout<<"Get candidates done"<<endl;
         K=1;
         getFrequent();
         return frequent_itemsets;

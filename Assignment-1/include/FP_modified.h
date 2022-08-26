@@ -47,6 +47,9 @@ struct Node{
             child.second->freeMemory();
             free(childNodes[child.first]);
         }        
+        childNodes.clear();
+        // free(next);
+        // free(parent);
     }
     void printTree(){
         cout<<item<<"::";
@@ -186,7 +189,7 @@ struct Table {
             ptr->count+=count;
         }
     }
-    set<C> getAllFrequentItemsets(bool initial=false){
+    set<C> getAllFrequentItemsets(int treeCount=0){
         // is the tree only a single line
         if(root->isSingleLine()){
             // cout<<"Single path detected"<<endl;
@@ -209,8 +212,12 @@ struct Table {
 
         // 
         int total_size=head.size();
-        int count=0;
+        int count=0,all_size=head.size();
+        int initialTreeCount=treeCount;
         for(auto p:head){
+            if(initialTreeCount==0){
+                cout<<initialTreeCount<<"--->"<<count++<<" out of "<<all_size<<endl;
+            }
             T item=p.first;
             Node<T> *ptr=p.second;
             // although this will not be needed but anyways I have written
@@ -254,7 +261,7 @@ struct Table {
                 subTable->addTransaction(filteredPath,count);
                 traverse_ptr=traverse_ptr->next;
             }
-            set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets();
+            set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets(treeCount++);
             for(auto frequent:subTableFrequentItemsets){
                 frequent.push_back(item);
                 sort(all(frequent));

@@ -1,6 +1,6 @@
 # This is for buiding main
 run: obj/main.o
-	./obj/main.o ./datasets/5/test5.dat 0.98 -fptree 1 ./datasets/output/test5_98.dat ./datasets/time.txt
+	./obj/main.o ./datasets/webdocs.dat 0.50 -apriori 1 ./datasets/output/webdocs90_apriori.dat ./datasets/time.txt
 obj/main.o:
 	g++ -std=c++11 -O3 -w -Iinclude/ src/main.cpp -o obj/main.o
 # This is for building plot

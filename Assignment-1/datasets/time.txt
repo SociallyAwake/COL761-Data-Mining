@@ -14,3 +14,10 @@
 ./datasets/0/test0.dat fptree 100 0.000878096 1
 ./datasets/0/test0.dat fptree 100 0.000810862 1
 ./datasets/5/test5.dat fptree 98 0.162541 1
+./datasets/4/test4.dat fptree 90 0.0204799 1
+./datasets/3/test3.dat fptree 1 0.04474 1
+./datasets/2/test2.dat fptree 30 0.126611 1
+./datasets/2/test2.dat fptree 30 0.119701 1
+./datasets/2/test2.dat apriori 30 10.7378 1
+./datasets/webdocs.dat apriori 90 80.4433 1
+./datasets/webdocs.dat apriori 50 299.62 1
