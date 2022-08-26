@@ -45,14 +45,14 @@ struct Apriori {
             nTransactions++;
         }
         close_file(file);
-        cout<<"Frequency noted"<<endl;
+        // cout<<"Frequency noted"<<endl;
         // support threshold constructor
         supportThreshold=threshold;
         nSupportThreshold=(supportThreshold*nTransactions);
         if(nSupportThreshold<(supportThreshold*nTransactions)){
             nSupportThreshold++;
         }
-        cout<<"Threshold modified"<<endl;
+        // cout<<"Threshold modified"<<endl;
         // Apriori Paramenters constructor
         K=0;
         for(pair<T,int> p:mapping){
@@ -61,12 +61,12 @@ struct Apriori {
             }
             C_K.insert(vector<T>(1,p.first));
         }
-        cout<<"First stage done"<<endl;
+        // cout<<"First stage done"<<endl;
     }
     void getFrequent(){
         cout<<K<<":::::::::::::::::"<<C_K.size()<<endl;
         
-        if(C_K.size()<2){ // no. of items in last stage is insufficient to keep continuing the analysis
+        if(C_K.size()<1){ // no. of items in last stage is insufficient to keep continuing the analysis
             return;
         }
         F_K.clear();
@@ -99,62 +99,37 @@ struct Apriori {
         getFrequent(); 
     }
     void getCandidates(){
-        if(K!=0){
-            int id=0,ie=0;
-            // 1a stage is to merge two elements of set C_K so that new element will have a size of C_(K+1)
-            C_K.clear();
-            for(C itemset_1:F_K){
-                for(C itemset_2:F_K){
-                    if(itemset_1==itemset_2){
-                        continue;
-                    }
-                    // Manish: can be optimised
-                    if(candidateCheck<T>(itemset_1,itemset_2,K-1)){
-                        // cout<<"Candidate:"<<ie++<<endl;
-                        bool flag=true;
-                        vector<T> merged=candidateMerge<T,vector<T> >(itemset_1,itemset_2);
-                        set<T> merged_set=vector_to_set<T>(merged);
-                        for(T itemset:merged){
-                            // cout<<itemset<<">>"<<endl;
-                            merged_set.erase(itemset);
-                            if(F_K.find(set_to_vector<int>(merged_set))==F_K.end()){
-                                flag=false;
-                                break;
-                            }
-                            merged_set.insert(itemset);
-                        }
-                        if(flag){
-                            C_K.insert(merged);
-                        }
-                    }
-                }
-            }
-        }
-        else{
-            map<T,int> mapping;
-            FILE *file=load_file();
-            // populate C_K
-            for(int i=0;i<nTransactions;i++){
-                vector<T> transaction;
-                getSingleTransaction<vector<T> >(transaction,file);
-                for(T item:transaction){
-                    mapping[item]++;
-                }
-            }
-            close_file(file);
-            // set<int> to vector<vector<int> > 
-            set<vector<int> > v;
-            for(auto p: mapping){
-                if(p.second<nSupportThreshold){
+        int id=0,ie=0;
+        // 1a stage is to merge two elements of set C_K so that new element will have a size of C_(K+1)
+        C_K.clear();
+        for(C itemset_1:F_K){
+            for(C itemset_2:F_K){
+                if(itemset_1==itemset_2){
                     continue;
                 }
-                v.insert(vector<int>(1,p.first));
+                // Manish: can be optimised
+                if(candidateCheck<T>(itemset_1,itemset_2,K-1)){
+                    // cout<<"Candidate:"<<ie++<<endl;
+                    bool flag=true;
+                    vector<T> merged=candidateMerge<T,vector<T> >(itemset_1,itemset_2);
+                    set<T> merged_set=vector_to_set<T>(merged);
+                    for(T itemset:merged){
+                        // cout<<itemset<<">>"<<endl;
+                        merged_set.erase(itemset);
+                        if(F_K.find(set_to_vector<int>(merged_set))==F_K.end()){
+                            flag=false;
+                            break;
+                        }
+                        merged_set.insert(itemset);
+                    }
+                    if(flag){
+                        C_K.insert(merged);
+                    }
+                }
             }
-            C_K=v;
         }
     }
     set<C> getAllFrequentItemsets(){
-        cout<<"Get candidates done"<<endl;
         K=1;
         getFrequent();
         return frequent_itemsets;
