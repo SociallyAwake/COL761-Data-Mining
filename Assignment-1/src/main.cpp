@@ -53,7 +53,7 @@ int main(int argc,char **argv){
     }
     // I need to run a code six times for FP and Apriori
     string filename(argv[1]);
-    float threshold=stof(string(argv[2]));
+    float threshold=(float)stoi(string(argv[2]))/100.0;
     string algorithmType(argv[3]);
     int nreps=stoi(string(argv[4])); // iterations
     double total=0.0;

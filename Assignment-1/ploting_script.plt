@@ -1,7 +1,7 @@
 set terminal png size 500,500
-set output 'comparision.png'
+set output output_filename
 set title 'Apriori vs Fptree'
 set xlabel "Threshold %"
+
 set ylabel "Time (sec)"
-p "plot.txt" u 1:2 w lp title 'Apriori',\
-   "plot.txt" u 1:3 w lp title 'Fptree'
+p ap_filename u 1:2 w lp title 'Apriori', fp_filename u 1:2 w lp title 'FP-tree'

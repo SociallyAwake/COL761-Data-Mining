@@ -1,11 +1,12 @@
 # This is for buiding main
+all: obj/main.o obj/plot.o
 run: obj/main.o
-	./obj/main.o ./datasets/webdocs.dat 0.50 -apriori 1 ./datasets/output/webdocs90_apriori.dat ./datasets/time.txt
+	./obj/main.o $(DATASET) $(THRESHOLD) $(ALGORITHM) $(NREPS) $(OUTPUT) $(TIME)
 obj/main.o:
 	g++ -std=c++11 -O3 -w -Iinclude/ src/main.cpp -o obj/main.o
 # This is for building plot
 plot: obj/plot.o
-	./obj/plot.o $(INPUT_DATASET) $(PLOT_FILENAME)
+	./obj/plot.o $(DATASET) $(OUTPUT)
 obj/plot.o:
 	g++ -std=c++11 -O3 -w -Iinclude/ src/plot.cpp -o obj/plot.o
 # This is for io_handler testing
