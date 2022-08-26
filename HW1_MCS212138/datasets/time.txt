@@ -1,0 +1,23 @@
+./datasets/5/test5.dat fptree 98 1.06411 1
+./datasets/5/test5.dat fptree 98 1.07261 1
+./datasets/webdocs.dat fptree 98 404.382 6
+./datasets/webdocs.dat fptree 90 150.448 1
+./datasets/webdocs.dat fptree 50 149.895 1
+------------------------------------------------  
+./datasets/5/test5.dat apriori 98 284.571 1
+./datasets/webdocs.dat fptree 50 159.294 1
+./datasets/webdocs.dat fptree 90 158.322 1
+./datasets/5/test5.dat fptree 98 0.161914 1
+./datasets/0/test0.dat fptree 100 0.000789881 1
+./datasets/0/test0.dat fptree 100 0.000722885 1
+./datasets/0/test0.dat fptree 100 0.000859976 1
+./datasets/0/test0.dat fptree 100 0.000878096 1
+./datasets/0/test0.dat fptree 100 0.000810862 1
+./datasets/5/test5.dat fptree 98 0.162541 1
+./datasets/4/test4.dat fptree 90 0.0204799 1
+./datasets/3/test3.dat fptree 1 0.04474 1
+./datasets/2/test2.dat fptree 30 0.126611 1
+./datasets/2/test2.dat fptree 30 0.119701 1
+./datasets/2/test2.dat apriori 30 10.7378 1
+./datasets/webdocs.dat apriori 90 80.4433 1
+./datasets/webdocs.dat apriori 50 299.62 1
