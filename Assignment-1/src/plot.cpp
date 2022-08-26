@@ -53,11 +53,20 @@ int main(int argc,char **argv){
     }
     // I need to run a code six times for FP and Apriori
     string filename(argv[1]);
-    string outputFilename(argv[2]);
+    string FP_filename=string(argv[2])+"FP.l";
+    string Apriori_filename=string(argv[2])+"Apriori.l";
+    string fpOutputFilename(FP_filename);
     {
         // erase the output file
         ofstream file;
-        file.open(outputFilename,ios::out|ios::trunc);
+        file.open(fpOutputFilename,ios::out|ios::trunc);
+        file.close();
+    }
+    string aprioriOutputFilename(Apriori_filename);
+    {
+        // erase the output file
+        ofstream file;
+        file.open(aprioriOutputFilename,ios::out|ios::trunc);
         file.close();
     }
     float threshold[]={0.90,0.50,0.25,0.10,0.05};
@@ -73,8 +82,8 @@ int main(int argc,char **argv){
         {
             // adding the time to the file
             ofstream file;
-            file.open(outputFilename,ios::out|ios::app);
-            file<<threshold[i]<<" "<<end_time-start_time<<endl;
+            file.open(fpOutputFilename,ios::out|ios::app);
+            file<<(int)(100*threshold[i])<<" "<<end_time-start_time<<endl;
             file.close();
         }
         cout<<"FP tree analysis for "<<threshold[i]<<" ended."<<endl;
@@ -88,8 +97,8 @@ int main(int argc,char **argv){
         {
             // adding the time to the file
             ofstream file;
-            file.open(outputFilename,ios::out|ios::app);
-            file<<threshold[i]<<" "<<end_time-start_time<<endl;
+            file.open(aprioriOutputFilename,ios::out|ios::app);
+            file<<(int)(100*threshold[i])<<" "<<end_time-start_time<<endl;
             file.close();
         }
         cout<<"Apriori analysis for "<<threshold[i]<<" ended."<<endl;
