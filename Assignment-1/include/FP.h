@@ -29,6 +29,16 @@ struct Node{
             return vector<T>();
         }
     }
+    vector<T> getPathToChildren(vector<T> v){
+        v.push_back(item);
+        if(childNodes.size()==0){
+            return v;
+        }
+        else{
+            auto iter=childNodes.begin();
+            return iter->second->getPathToChildren(v);
+        }
+    }
     void freeMemory(){
         if(childNodes.size()==0){
             return;
@@ -37,6 +47,9 @@ struct Node{
             child.second->freeMemory();
             free(childNodes[child.first]);
         }        
+        childNodes.clear();
+        // free(next);
+        // free(parent);
     }
     void printTree(){
         cout<<item<<"::";
@@ -48,6 +61,19 @@ struct Node{
             i.second->printTree();
         }
     }
+    bool isSingleLine(){
+        if(childNodes.size()==0){
+            return true;
+        }
+        else if(childNodes.size()==1){
+            auto iter=childNodes.begin();
+            return iter->second->isSingleLine();
+        }
+        else{
+            return false;
+        }
+    }
+
 };
 template<typename T, typename C>
 struct Table {
@@ -163,9 +189,31 @@ struct Table {
             ptr->count+=count;
         }
     }
-    set<C> getAllFrequentItemsets(bool initial=false){
+    set<C> getAllFrequentItemsets(int treeCount=0){
+        // is the tree only a single line
+        if(root->isSingleLine()){
+            // cout<<"Single path detected"<<endl;
+            vector<T> path=root->getPathToChildren(vector<T>());
+            path.erase(path.begin());
+            // for(auto i:path){
+                // cout<<i<<" ";
+            // }
+            // get all the powersets of this path
+            auto s=getAllPowerSets<T>(path);
+            s.erase(vector<T>());
+            // for(auto v:s){
+                // for(auto i:v){
+                    // cout<<i<<" ";
+                // }
+                // cout<<endl;
+            // }
+            return s;
+        }
+
+        // 
         int total_size=head.size();
-        int count=0;
+        int count=0,all_size=head.size();
+        int initialTreeCount=treeCount;
         for(auto p:head){
             T item=p.first;
             Node<T> *ptr=p.second;
@@ -210,7 +258,7 @@ struct Table {
                 subTable->addTransaction(filteredPath,count);
                 traverse_ptr=traverse_ptr->next;
             }
-            set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets();
+            set<C> subTableFrequentItemsets=subTable->getAllFrequentItemsets(treeCount++);
             for(auto frequent:subTableFrequentItemsets){
                 frequent.push_back(item);
                 sort(all(frequent));

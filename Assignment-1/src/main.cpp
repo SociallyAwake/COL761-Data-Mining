@@ -44,7 +44,7 @@ using namespace std;
 #include"io_handler.h"
 #include"helper.h"
 #include"Apriori.h"
-#include"FP_modified.h"
+#include"FP.h"
 #include"timer.h"
 int main(int argc,char **argv){
     if(argc<7){
