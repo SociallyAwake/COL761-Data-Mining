@@ -29,7 +29,9 @@ These are the following files which are bundled under the zip file HW1_2021MCS21
 
 8. Makefile: This is used to run main.cpp.
 
+9. Report.pdf: This file is the Report
 
+10. ploting_script.plt: This is the ploting script for gnuplot. It will be used in question number 3.
 
 Name and Entry No. Of all team members are following:
 
