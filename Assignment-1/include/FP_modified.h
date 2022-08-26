@@ -215,9 +215,6 @@ struct Table {
         int count=0,all_size=head.size();
         int initialTreeCount=treeCount;
         for(auto p:head){
-            if(initialTreeCount==0){
-                cout<<initialTreeCount<<"--->"<<count++<<" out of "<<all_size<<endl;
-            }
             T item=p.first;
             Node<T> *ptr=p.second;
             // although this will not be needed but anyways I have written
