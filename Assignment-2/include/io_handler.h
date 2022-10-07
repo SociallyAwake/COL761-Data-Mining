@@ -52,7 +52,6 @@ void getGraph(char *filename, graphDatabase *D){
             add_vertex(vertex_t(D->labelMapping[s]),G);
             // line consumed
             index++;
-            s=data[index];
         }
         s=data[index];
         // This will be an integer too
@@ -180,9 +179,10 @@ bool isSubgraphIsomorphic(graph_t G1, graph_t G2){
         This is the order in which the vertices are examined during the matching process.
     */
 
-    bool flag=vf2_subgraph_iso(G1, G2, callback, vertex_order_by_mult(G1), edges_equivalent(edge_comp).vertices_equivalent(vertex_comp));
+    bool flag=vf2_subgraph_mono(G1, G2, callback, vertex_order_by_mult(G1), edges_equivalent(edge_comp).vertices_equivalent(vertex_comp));
     return flag;
 }
+
 /*
     Have to read two files here
     1st one *_fsg.fp

@@ -1,6 +1,7 @@
 template <typename Graph1, typename Graph2>
 struct Callback {    
-public:
+    Graph1& graph1_;
+    Graph2& graph2_;
     // constructor
     Callback(Graph1 graph1,Graph2 graph2) : graph1_(graph1), graph2_(graph2) {
     }
@@ -15,8 +16,7 @@ public:
         // Don't want to pring anything on terminal
         return false;
     }
-    Graph1& graph1_;
-    Graph2& graph2_;
+    
 };
 
 
@@ -29,7 +29,7 @@ struct graphDatabase{
     int label_count;
     graphDatabase(){
         graph_count=0;
-        label_count=0;
+        label_count=1;
     }
 };
 

@@ -1,6 +1,7 @@
 #include"io_handler.h"
 #include"helper.h"
 #include"timer.h"
+// #define __DEBUG__ 1
 int main(int argc,char **argv){
     char *filename=argv[1];
     char *result_filename=argv[2];
@@ -8,33 +9,44 @@ int main(int argc,char **argv){
     char *query_filename=argv[4];
     char *ans_filename=argv[5];
     int MAX_SIZE=stoi(string(argv[6]));
-    cout<<"Code starting....."<<endl;
+
+    #ifdef __DEBUG__
+        cout<<"Code starting....."<<endl;
+    #endif
     // load the main graph database
     graphDatabase *D=new graphDatabase();
     getGraph(filename,D);
-    cout<<"Size of the main dataset is "<<D->graphs.size()<<endl;
-    cout<<"Main Database Loaded...."<<endl;
+    #ifdef __DEBUG__
+        cout<<"Size of the main dataset is "<<D->graphs.size()<<endl;
+        cout<<"Main Database Loaded...."<<endl;
+    #endif
     // load the fsg_result.txt
     graphDatabaseBySize *result_D=new graphDatabaseBySize(MAX_SIZE);
     readIndexStructure(result_filename,result_D);
-    cout<<"Index structure Loaded....."<<endl;
+    #ifdef __DEBUG__
+        cout<<"Index structure Loaded....."<<endl;
+    #endif
     // load the fsg_single.txt
     singleEdgeDatabase *E=new singleEdgeDatabase();
     readSingleEdgeHashMatching(e_filename,E);
-    cout<<"Single Edge Structure Loaded....."<<endl;
+    #ifdef __DEBUG__
+        cout<<"Single Edge Structure Loaded....."<<endl;
+    #endif
+    
     // read the query graph
     graphDatabase *Q=new graphDatabase();
     // to maintain consistency between query graphs and main database.
     Q->labelMapping=D->labelMapping;
     Q->label_count=D->label_count;
     getGraph(query_filename,Q);
-    cout<<"Query graph loaded....."<<endl;
+    #ifdef __DEBUG__
+        cout<<"Query graph loaded....."<<endl;
+    #endif
     {
         ofstream fout;
         fout.open(ans_filename,ios::out|ios::trunc);
         fout.close();
     }
-    cout<<"Starting the check..."<<endl;
     for(int i=0;i<Q->graphs.size();i++){
         graph_t g=Q->graphs[i];
         int q_size=num_edges(g);
@@ -42,9 +54,8 @@ int main(int argc,char **argv){
         std::unordered_set<int> candidates;
         {
             graph_t::edge_iterator iter,iter_end;
-            bool initial_flag=true;
             for(int j=0;j<D->graph_count;j++){
-                candidates.insert(i);
+                candidates.insert(j);
             }
             for(tie(iter,iter_end)=edges(g);iter!=iter_end;iter++){
                 int u=get(vertex_name, g)[source(*iter, g)];
@@ -58,12 +69,15 @@ int main(int argc,char **argv){
                     candidates=getIntersection(candidates,E->edge_mapping[edge_hash]);
                 }
                 else{
+                    cout<<edge_hash<<" not found"<<endl;
                     candidates=std::unordered_set<int>();
                     break;
                 }
             }
         }
-        cout<<"Single edge pruning done"<<endl;
+        #ifdef __DEBUG__
+            cout<<"Single edge pruning done"<<endl;
+        #endif
         if(candidates.size()>=500){
             for(int i=2;i<result_D->v_graphs.size();i++){
                 if(q_size<i){
@@ -76,16 +90,23 @@ int main(int argc,char **argv){
                 }
             }
         }
-        cout<<"Discriminative graph pruning done"<<endl;
+        #ifdef __DEBUG__
+            cout<<"Discriminative graph pruning done"<<endl;
+        #endif
         ofstream fout;
         fout.open(ans_filename,ios::app);
+        int count=0;
         for(int i:candidates){
             if(isSubgraphIsomorphic(g,D->graphs[i])){
-                cout<<i<<" matched"<<endl;
+                count++;
                 fout<<D->graphMapping[i]<<" ";
             }
         }
         fout<<endl;
+        #ifdef __DEBUG__
+            cout<<"Found in "<<count<<" matches"<<endl;
+        #endif
+        
         fout.close();
         
 

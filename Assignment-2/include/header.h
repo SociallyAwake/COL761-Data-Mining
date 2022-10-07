@@ -63,11 +63,11 @@ ll scan(){
  
 
 // Define edge and vertex properties
-typedef property<edge_name_t, char> edge_t;
-typedef property<vertex_name_t, char, property<vertex_index_t, int> > vertex_t;
+typedef property<edge_name_t, int> edge_t;
+typedef property<vertex_name_t, int, property<vertex_index_t, int> > vertex_t;
 
 // Using a vecS graphs => the index maps are implicit.
-typedef adjacency_list<vecS, vecS, bidirectionalS, vertex_t, edge_t> graph_t;
+typedef adjacency_list<vecS, vecS, undirectedS, vertex_t, edge_t> graph_t;
 
 // Create the vertex binary predicate
 typedef property_map<graph_t, vertex_name_t>::type vertex_name_map_t;
