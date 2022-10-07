@@ -6,9 +6,8 @@ int main(int argc,char **argv){
     char *filename=argv[1];
     char *result_filename=argv[2];
     char *e_filename=argv[3];
-    char *query_filename=argv[4];
-    char *ans_filename=argv[5];
-    int MAX_SIZE=stoi(string(argv[6]));
+    char *ans_filename=argv[4];
+    int MAX_SIZE=stoi(string(argv[5]));
 
     #ifdef __DEBUG__
         cout<<"Code starting....."<<endl;
@@ -33,12 +32,15 @@ int main(int argc,char **argv){
         cout<<"Single Edge Structure Loaded....."<<endl;
     #endif
     
+    string query_filename;
+    cout<<"Enter the query filename"<<endl;
+    cin>>query_filename;
     // read the query graph
     graphDatabase *Q=new graphDatabase();
     // to maintain consistency between query graphs and main database.
     Q->labelMapping=D->labelMapping;
     Q->label_count=D->label_count;
-    getGraph(query_filename,Q);
+    getGraph((char*)query_filename.c_str(),Q);
     #ifdef __DEBUG__
         cout<<"Query graph loaded....."<<endl;
     #endif
@@ -47,6 +49,10 @@ int main(int argc,char **argv){
         fout.open(ans_filename,ios::out|ios::trunc);
         fout.close();
     }
+    ofstream fout;
+    fout.open(ans_filename,ios::app);
+    // start timer
+    double start_time=calculateTime();
     for(int i=0;i<Q->graphs.size();i++){
         graph_t g=Q->graphs[i];
         int q_size=num_edges(g);
@@ -93,8 +99,7 @@ int main(int argc,char **argv){
         #ifdef __DEBUG__
             cout<<"Discriminative graph pruning done"<<endl;
         #endif
-        ofstream fout;
-        fout.open(ans_filename,ios::app);
+        
         int count=0;
         for(int i:candidates){
             if(isSubgraphIsomorphic(g,D->graphs[i])){
@@ -103,13 +108,14 @@ int main(int argc,char **argv){
             }
         }
         fout<<endl;
-        #ifdef __DEBUG__
+        #ifndef __DEBUG__
             cout<<"Found in "<<count<<" matches"<<endl;
         #endif
         
-        fout.close();
-        
-
-
     }
+    fout.close();
+    // end timer
+    double end_time=calculateTime();
+    // printing time in milliseconds
+    cout<<(double)(end_time-start_time)*1000.0<<endl;
 }

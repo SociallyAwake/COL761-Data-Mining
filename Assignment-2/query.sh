@@ -1,0 +1,1 @@
+./obj/main.o ./datasets/data.txt ./datasets/index_structure.txt ./datasets/single_edge.txt _MCS212138.txt 15
