@@ -52,6 +52,7 @@ clean:
 	rm -rf ./$(DATASET)/2.txt
 	rm -rf ./$(DATASET)/3.txt
 	rm -rf ./$(DATASET)/4.txt
+	rm -rf _MCS212138*
 # Vidya: Q1
 	rm -rf ./$(DATASET)/plotOutput
 	rm -rf ./$(DATASET)/FSGinput.fp
