@@ -48,17 +48,8 @@ Manish Kumar Srivastava
 #define all(a) a.begin(),a.end()
 #define mp(a,b) make_pair(a,b)
 #define ll long long int
-// #define bit(i) (1<<(i))
-// #define set(mask,i) (mask |= (1<<(i)))
-// #define get(mask,i) (mask & (1<<(i)))
-// Namespaces
 using namespace std;
 using namespace boost;
-ll scan(){
-    ll a;
-    scanf("%lld",&a);
-    return a;
-}
 #pragma endregion
  
 

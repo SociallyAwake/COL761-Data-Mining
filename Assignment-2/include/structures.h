@@ -1,3 +1,4 @@
+#include"header.h"
 template <typename Graph1, typename Graph2>
 struct Callback {    
     Graph1& graph1_;

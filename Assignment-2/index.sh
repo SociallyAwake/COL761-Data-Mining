@@ -1,5 +1,4 @@
-make clean
-make all
+make q2
 # cleaning txt files
 rm -rf ./datasets/fsg*
 rm -rf ./datasets/data.txt
