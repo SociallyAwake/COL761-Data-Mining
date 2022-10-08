@@ -14,11 +14,11 @@ q3: $(OBJ)/kmeans.o
 $(OBJ)/kmeans.o:
 	g++ -std=c++11 $(SRC)/kmeans.cpp -o $(OBJ)/kmeans.o
 $(OBJ)/main.o:
-	g++ -std=c++11 -w -O3 -I$(INCLUDE)/ $(SRC)/main.cpp -D__DEBUG__1 -o $(OBJ)/main.o
+	g++ -std=c++11 -w -O3 -I$(INCLUDE)/ $(SRC)/main.cpp -o $(OBJ)/main.o
 $(OBJ)/convert.o: 
 	g++ -std=c++11 -w -O3 -I$(INCLUDE)/ $(SRC)/convert.cpp -o $(OBJ)/convert.o
 $(OBJ)/index.o:
-	g++ -std=c++11 -w -O3 -I$(INCLUDE)/ $(SRC)/index.cpp -D__DEBUG__1 -o $(OBJ)/index.o
+	g++ -std=c++11 -w -O3 -I$(INCLUDE)/ $(SRC)/index.cpp -o $(OBJ)/index.o
 #############################################################################
 # Plotting scripts
 plot2:
