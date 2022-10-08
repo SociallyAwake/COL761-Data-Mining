@@ -47,9 +47,11 @@ clean:
 	rm -rf ./$(DATASET)/data.txt
 	rm -rf ./$(DATASET)/index_structure.txt
 	rm -rf ./$(DATASET)/single_edge.txt
-	rm -rf _MCS212138*
+	rm -rf output_MCS212138.txt
 # Nikhil: Q3
 	rm -rf ./$(DATASET)/2.txt
 	rm -rf ./$(DATASET)/3.txt
 	rm -rf ./$(DATASET)/4.txt
+# Vidya: Q1
+	rm -rf ./$(DATASET)/plotOutput
 ############################################################################# 

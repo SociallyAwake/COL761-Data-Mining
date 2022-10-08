@@ -9,8 +9,8 @@ plot_name = sys.argv[1]
 
 file1 = "./datasets/GSPANinput.txt"
 file2 = "./datasets/FSGinput.txt"
-# supports = [5,10,25,50,95]
-supports = [50,95]
+supports = [5,10,25,50,95]
+# supports = [50,95]
 graphs_count = 64110
 gaston_time = []
 gspan_time = []
