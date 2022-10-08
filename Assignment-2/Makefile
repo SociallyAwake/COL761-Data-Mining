@@ -5,7 +5,7 @@ SRC=src
 INCLUDE=include
 TOOLS=tools
 ############################################################################# 
-all: $(OBJ)/convert.o $(OBJ)/index.o $(OBJ)/main.o $(OBJ)/kmeans.o $(TOOLS)/gaston.o
+all: $(OBJ)/convert.o $(OBJ)/index.o $(OBJ)/main.o $(OBJ)/kmeans.o $(TOOLS)/gaston.o $(OBJ)/conversion.o
 ############################################################################# 
 # Q1 run command
 q1: $(TOOLS)/gaston.o $(OBJ)/conversion.o
