@@ -54,4 +54,7 @@ clean:
 	rm -rf ./$(DATASET)/4.txt
 # Vidya: Q1
 	rm -rf ./$(DATASET)/plotOutput
+	rm -rf ./$(DATASET)/FSGinput.fp
+	rm -rf ./$(DATASET)/FSGinput.txt
+	rm -rf ./$(DATASET)/GSPANinput.txt
 ############################################################################# 
