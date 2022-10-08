@@ -7,4 +7,4 @@ run:
 	git push origin main
 	mv ../boost Assignment-2/include/
 clean:
-	rm -rf  HW2_2021MCS2138 HW2_MCS212138.zip
+	rm -rf  HW2_MCS212138 HW2_MCS212138.zip
