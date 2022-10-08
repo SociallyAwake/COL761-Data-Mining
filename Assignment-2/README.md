@@ -12,8 +12,9 @@ Q2:
         1. sh index.sh <DATASET_PATH>
         
         2. sh query.sh
-    
-    The 2nd step will ask for an input in which you have to give the query file for which you want to test the code.
+        
+     
+   The 2nd step will ask for an input in which you have to give the query file for which you want to test the code.
 
 Q3:
     To run the Q3 use the following command:
