@@ -9,6 +9,7 @@
 #include "simplesubiso.h"
 #include <time.h>
 #include <getopt.h>
+#include <cstring>
 
 using namespace std;
 
