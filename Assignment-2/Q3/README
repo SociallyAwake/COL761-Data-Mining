@@ -1,0 +1,48 @@
+how to use:
+
+1.
+make run
+---
+
+
+It will first clean all the previous generated txt files then
+execute the object file kmeans.o generated previously
+And generate the plot corresponding to the file
+Example:
+        make run arg1=MCS212141_generated_dataset_2D.dat 2 q3_2_MCS212141.png
+        make run arg1=MCS212141_generated_dataset_3D.dat 3 q3_3_MCS212141.png
+        make run arg1=MCS212141_generated_dataset_4D.dat 4 q3_4_MCS212141.png
+2.
+make complie
+---
+compile the kmeans.cpp file and generate the object file named hello
+
+3.
+make open
+---
+Open the code in vim editor
+
+4.
+make clean
+---
+Clean the object file
+
+5.
+make plot2
+---
+For plotting of 2D points with default set inputfile 2.txt
+
+6.
+make plot3
+---
+For plotting of 3D points with default set inputfile 3.txt
+
+7. 
+make plot4
+---
+For plotting of 4D points with default set inputfile 4.txt
+
+8.
+make clean_txt
+---
+Cleans all the txt files
