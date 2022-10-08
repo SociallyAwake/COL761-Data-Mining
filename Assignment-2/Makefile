@@ -3,9 +3,16 @@ SCRIPT=scripts
 DATASET=datasets
 SRC=src
 INCLUDE=include
+TOOLS=tools
 ############################################################################# 
-all: $(OBJ)/convert.o $(OBJ)/index.o $(OBJ)/main.o $(OBJ)/kmeans.o
+all: $(OBJ)/convert.o $(OBJ)/index.o $(OBJ)/main.o $(OBJ)/kmeans.o $(TOOLS)/gaston.o
 ############################################################################# 
+# Q1 run command
+q1: $(TOOLS)/gaston.o $(OBJ)/conversion.o
+	./$(OBJ)/conversion.o $(DATASET)
+	python3 $(SCRIPT)/plot.py _MCS212138_plot
+############################################################################# 
+# Q1 run command
 q2: $(OBJ)/convert.o $(OBJ)/index.o $(OBJ)/main.o
 ############################################################################# 
 # Q3 run command
@@ -13,6 +20,10 @@ q3: $(OBJ)/kmeans.o
 	./$(OBJ)/kmeans.o $(arg1) $(arg2) $(arg3)
 	if test -f "$(DATASET)/2.txt"; then make plot2 arg4=$(arg3); elif test -f "$(DATASET)/3.txt"; then make plot3 arg4=$(arg3); elif test -f "$(DATASET)/4.txt"; then make plot4 arg4=$(arg3); else echo "No outputfile for plotting"; fi
 ############################################################################# 
+$(TOOLS)/gaston.o: 
+	cd ./tools/gaston-1.1-re && make && cp gaston ../ && make clean
+$(OBJ)/conversion.o:
+	g++ -std=c++11 $(SRC)/conversion.cpp -o $(OBJ)/conversion.o
 $(OBJ)/kmeans.o:
 	g++ -std=c++11 $(SRC)/kmeans.cpp -o $(OBJ)/kmeans.o
 $(OBJ)/main.o:
