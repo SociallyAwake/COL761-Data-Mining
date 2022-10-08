@@ -1,4 +1,3 @@
-cd Q2/
 make clean
 make all
 # cleaning txt files
