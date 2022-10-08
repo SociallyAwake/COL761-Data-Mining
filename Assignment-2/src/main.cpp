@@ -9,26 +9,26 @@ int main(int argc,char **argv){
     char *ans_filename=argv[4];
     int MAX_SIZE=stoi(string(argv[5]));
 
-    #ifdef __DEBUG__
+    #ifdef __DEBUG__2
         cout<<"Code starting....."<<endl;
     #endif
     // load the main graph database
     graphDatabase *D=new graphDatabase();
     getGraph(filename,D);
-    #ifdef __DEBUG__
+    #ifdef __DEBUG__2
         cout<<"Size of the main dataset is "<<D->graphs.size()<<endl;
         cout<<"Main Database Loaded...."<<endl;
     #endif
     // load the fsg_result.txt
     graphDatabaseBySize *result_D=new graphDatabaseBySize(MAX_SIZE);
     readIndexStructure(result_filename,result_D);
-    #ifdef __DEBUG__
+    #ifdef __DEBUG__2
         cout<<"Index structure Loaded....."<<endl;
     #endif
     // load the fsg_single.txt
     singleEdgeDatabase *E=new singleEdgeDatabase();
     readSingleEdgeHashMatching(e_filename,E);
-    #ifdef __DEBUG__
+    #ifdef __DEBUG__2
         cout<<"Single Edge Structure Loaded....."<<endl;
     #endif
     
@@ -41,7 +41,7 @@ int main(int argc,char **argv){
     Q->labelMapping=D->labelMapping;
     Q->label_count=D->label_count;
     getGraph((char*)query_filename.c_str(),Q);
-    #ifdef __DEBUG__
+    #ifdef __DEBUG__2
         cout<<"Query graph loaded....."<<endl;
     #endif
     {
@@ -81,7 +81,7 @@ int main(int argc,char **argv){
                 }
             }
         }
-        #ifdef __DEBUG__
+        #ifdef __DEBUG__2
             cout<<"Single edge pruning done"<<endl;
         #endif
         if(candidates.size()>=500){
@@ -96,7 +96,7 @@ int main(int argc,char **argv){
                 }
             }
         }
-        #ifdef __DEBUG__
+        #ifdef __DEBUG__2
             cout<<"Discriminative graph pruning done"<<endl;
         #endif
         
@@ -104,11 +104,11 @@ int main(int argc,char **argv){
         for(int i:candidates){
             if(isSubgraphIsomorphic(g,D->graphs[i])){
                 count++;
-                fout<<D->graphMapping[i]<<" ";
+                fout<<"#"<<D->graphMapping[i]<<" ";
             }
         }
         fout<<endl;
-        #ifndef __DEBUG__
+        #ifdef __DEBUG__1
             cout<<"Found in "<<count<<" matches"<<endl;
         #endif
         
