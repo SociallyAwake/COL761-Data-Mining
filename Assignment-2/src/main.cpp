@@ -104,7 +104,7 @@ int main(int argc,char **argv){
         for(int i:candidates){
             if(isSubgraphIsomorphic(g,D->graphs[i])){
                 count++;
-                fout<<"#"<<D->graphMapping[i]<<"\t";
+                fout<<D->graphMapping[i]<<"\t";
             }
         }
         fout<<endl;
