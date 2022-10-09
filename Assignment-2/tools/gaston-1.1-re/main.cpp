@@ -10,7 +10,7 @@
 #include <time.h>
 #include <getopt.h>
 #include <cstring>
-
+#include <cstdlib>
 using namespace std;
 
 Frequency minfreq = 1;
