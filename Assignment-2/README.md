@@ -1,5 +1,6 @@
 Before running the it is advised to run
-    source compile.sh
+      
+      source compile.sh
 
 Q1: 
    To reproduce the results of the report:
