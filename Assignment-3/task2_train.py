@@ -50,7 +50,7 @@ traffic_data_filename=sys.argv[3]
 adjacency_matrix_filename=sys.argv[4]
 graph_split_filename=sys.argv[5]
 model_filename="mcs212138_task2.model"
-adjacency_filename=model_filename.split(".")[0]+"_adj.csv"
+adjacency_filename="./datasets/"+model_filename.split(".")[0]+"_adj.csv"
 
 
 """## Loading the dataset"""

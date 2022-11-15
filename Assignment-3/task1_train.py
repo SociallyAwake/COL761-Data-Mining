@@ -24,6 +24,7 @@ graph_split_filename=sys.argv[3]
 model_name="mcs212138_task1.model"
 adjacency_filename="./datasets/"+model_name.split(".")[0]+"_adj.csv"
 
+
 import torch
 """
   Uncomment if run on colab
