@@ -13,7 +13,7 @@ import os
 isEdgeLength=False
 early_stopping=False
 toDecay=False
-nIter=1
+nIter=3
 onColab=False
 
 import torch

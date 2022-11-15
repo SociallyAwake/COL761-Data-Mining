@@ -16,7 +16,7 @@ toDecay=False
 """
   ?? make it configurable
 """
-nIter=20
+nIter=10
 onColab=False
 traffic_data_filename=sys.argv[1]
 adjacency_matrix_filename=sys.argv[2]
